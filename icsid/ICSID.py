@@ -16,9 +16,10 @@ options.add_argument('--headless')
 
 #access to case list page
 driver = webdriver.Chrome(executable_path = "/Users/sakikuzushima/Documents/programming/python/chromedriver", chrome_options = options)
+driver.set_window_size(1440, 900)
 driver.get("https://icsid.worldbank.org/en/Pages/cases/AdvancedSearch.aspx")
 
-time.sleep(1)
+time.sleep(5)
 
 #choose all from dropdown
 s1 = webdriver.support.select.Select(driver.find_element_by_class_name("CVpagecount"))
@@ -42,22 +43,19 @@ url_ls = []
 case_dict_ls = []
 for caseno in casenos[1:]:
 	caseno_tx = caseno.text
+
 	url_ls.append(url_base+caseno_tx)
-
-
-
 
 
 loop = 1
 
-#acces each case url
-for url in url_ls[0:685]:
+for url in url_ls:
 
 	print(loop)
-	time.sleep(1)
-
-	#access
+	
+	#access each case page 
 	driver.get(url)
+	time.sleep(5)
 
 	case1_we = driver.find_element_by_class_name("proceedingcaselist1")
 	case2_we = driver.find_element_by_class_name("proceedingcaselist2")
@@ -66,19 +64,19 @@ for url in url_ls[0:685]:
 	case2 = case2_we.text
 	cases = case1 + case2
 	case_ls = cases.split("\n")
-	print(case_ls)
+	# print(case_ls)
 
 	#get key and value
 	case_pairs =[]
 	for case_key in case_keys:
 
 		try:
-			case_index = case_ls.index(str(case_key)) + 1
+			case_index = case_ls.index(str(case_key)) + 1 #value is normally  next element to its key
 			case_val = case_ls[int(case_index)]
 			case_pairs.append((case_key, case_val))
 
 		except ValueError:
-			case_pairs.append((case_key, "NA"))
+			case_pairs.append((case_key, ""))
 
 	case_dict = dict(case_pairs)
 	case_dict_ls.append(case_dict)
@@ -86,9 +84,9 @@ for url in url_ls[0:685]:
 	loop = loop + 1
 
 
-case_df = pd.DataFrame(case_dict_ls, index = list(range(0,5)))
+	case_df = pd.DataFrame(case_dict_ls) #index = list(range(0,685))
 
-case_df.to_csv("ICSID_case.csv")
+	case_df.to_csv("ICSID_case.csv")
 
 
 
