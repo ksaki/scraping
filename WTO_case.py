@@ -1,4 +1,7 @@
 #scraping wto cases
+
+#WARNING: under development!
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
@@ -26,9 +29,6 @@ for a in driver.find_elements_by_xpath("//a"):
         if '/english/tratop_e/dispu_e/cases_e' in temp:
             case_links.append(temp)
 
-#access each case link, get current status and summary table
-# d = {case:[],status:[],last_date:[],status_detail:[],keyfacts:[]}
-# pd.dataframe(data=d)
 
 for case_link in case_links:
     driver.get(case_link)
@@ -38,11 +38,5 @@ for case_link in case_links:
     status = status.text
     print(status)
     
-    time.sleep(1)
-#     last_date_we = driver.find_element_by_xpath("//li/b")
-#     last_date = last_date_we.text
-#     print(last_date)
-    
-    #get Keyfacts
+    time.sleep(3)
 
- #comment: connectionrefusederror occured. 
