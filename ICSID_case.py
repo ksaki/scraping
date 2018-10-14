@@ -1,5 +1,10 @@
-#20180227
-#scraping ICSID pending cases
+##################################################
+## Project:WTO ICISD scraping
+## Script purpose: scrape ICSID case lists
+## Date:2018/02/27
+## Author: Saki Kuzushima
+## Version:1
+##################################################
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
